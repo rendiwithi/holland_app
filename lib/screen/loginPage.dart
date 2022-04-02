@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:holland/data/colordata.dart';
+import 'package:holland/data/colorData.dart';
 import 'package:holland/data/textStyleData.dart';
+import 'package:holland/screen/user/homePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -28,16 +29,9 @@ class _LoginPageState extends State<LoginPage> {
               width: 300,
               height: 200,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 15),
-              child: Text(
-                "Login",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text("Login", style: boldWhite),
             ),
             Container(
               height: 300,
@@ -94,7 +88,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
+                      },
                       child: const Text("Login"),
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(100, 25),
