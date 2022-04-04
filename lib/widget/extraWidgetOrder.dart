@@ -17,7 +17,13 @@ class _ExtraWidgetOrderState extends State<ExtraWidgetOrder> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("data ke-" + widget.index.toString()),
+        Text(
+          "Pesanan ke-" + widget.index.toString(),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
         Column(
           children: widget.extraOrders,
         )

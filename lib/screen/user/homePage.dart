@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/textStyleData.dart';
+import 'package:holland/data/variableModel.dart';
+import 'package:holland/screen/user/cardMenuItem.dart';
 import 'package:holland/screen/user/detailPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,50 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController searchController = TextEditingController();
 
-  Widget templateItem = Container(
-    margin: const EdgeInsets.only(bottom: 10, top: 10),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Row(
-      children: [
-        Expanded(
-          flex: 3,
-          child: Container(
-            width: 50,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                bottomLeft: Radius.circular(10),
-              ),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                  "https://i.pinimg.com/564x/b7/83/e5/b783e50c98526b8bea753e9ae3eac1f4.jpg",
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 4,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text("Biasa"),
-                Text("Terang Bulan"),
-                Text("Rp. 25.000"),
-                Text("ini deskripsi"),
-              ],
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
   @override
   Widget build(BuildContext context) {
     List<String> cardList = [
@@ -159,7 +117,7 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: GridView.builder(
-                  itemCount: 5,
+                  itemCount: listMenuItem.length,
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 250,
                     childAspectRatio: 4 / 3,
@@ -172,11 +130,12 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const DetailPage(),
+                            builder: (context) =>
+                                DetailPage(item: listMenuItem[index]),
                           ),
                         );
                       },
-                      child: templateItem,
+                      child: CardMenuItem(item: listMenuItem[index]),
                     );
                   },
                 ),
