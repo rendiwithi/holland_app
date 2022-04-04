@@ -1,6 +1,7 @@
 import 'package:holland/model/extra_item.dart';
 
 class MenuItem {
+  int id;
   String title;
   String position;
   String imgUrl;
@@ -8,6 +9,7 @@ class MenuItem {
   int price;
   List<ExtraItem> extraItem;
   MenuItem({
+    required this.id,
     required this.title,
     required this.position,
     required this.imgUrl,

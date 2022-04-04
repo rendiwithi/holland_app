@@ -2,6 +2,10 @@ import 'package:holland/model/extra_item.dart';
 import 'package:holland/model/list_extra_item.dart';
 import 'package:holland/model/menu_item.dart';
 
+// Public
+List<MenuItem> listShopOrder = [];
+int totalPerItem = 0;
+//Static for design will remove if backend is ready
 List<ExtraItem> listExtra = [
   ExtraItem(name: "cokelat", isSelected: false, price: 1000),
   ExtraItem(name: "susu", isSelected: false, price: 2000),
@@ -12,11 +16,10 @@ List<ExtraItem> listExtraAsin = [
   ExtraItem(name: "Keju", isSelected: false, price: 5000),
   ExtraItem(name: "Abon Sapi", isSelected: false, price: 6000),
 ];
-//model
-List<ListExtraItem> listExtraItemModel = [];
 
 List<MenuItem> listMenuItem = [
   MenuItem(
+    id: 1,
     title: "Martabak Manis Biasa",
     position: "Jl Mayjend Sungkono, Surabaya",
     imgUrl:
@@ -26,6 +29,7 @@ List<MenuItem> listMenuItem = [
     extraItem: listExtra,
   ),
   MenuItem(
+    id: 2,
     title: "Martabak Asin Besar",
     position: "Jl Mayjend Sungkono, Surabaya",
     imgUrl:
@@ -35,6 +39,7 @@ List<MenuItem> listMenuItem = [
     extraItem: listExtraAsin,
   ),
   MenuItem(
+    id: 3,
     title: "Martabak Asin Biasa",
     position: "Jl Mayjend Sungkono, Surabaya",
     imgUrl:

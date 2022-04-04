@@ -1,7 +1,7 @@
 class ExtraItem {
   String name;
   bool isSelected;
-  double price;
+  int price;
   ExtraItem({
     required this.name,
     required this.isSelected,

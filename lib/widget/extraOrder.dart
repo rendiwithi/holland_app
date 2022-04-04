@@ -4,10 +4,10 @@ import 'package:holland/data/variableModel.dart';
 import '../model/extra_item.dart';
 
 class ExtraOrder extends StatefulWidget {
-  const ExtraOrder({Key? key, required this.index, required this.idOrder})
+  const ExtraOrder({Key? key, required this.extra, required this.idMenu})
       : super(key: key);
-  final int index;
-  final int idOrder;
+  final ExtraItem extra;
+  final int idMenu;
 
   @override
   State<ExtraOrder> createState() => _ExtraOrderState();
@@ -18,17 +18,17 @@ class _ExtraOrderState extends State<ExtraOrder> {
   Widget build(BuildContext context) {
     return CheckboxListTile(
       title: Text(
-        listExtra[widget.index].name,
+        widget.extra.name + " (Rp. " + widget.extra.price.toString() + ")",
         style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
         ),
       ),
-      value: listExtra[widget.index].isSelected,
+      value: widget.extra.isSelected,
       onChanged: (check) {
         setState(() {
-          listExtra[widget.index].isSelected = check!;
+          widget.extra.isSelected = check!;
         });
       },
     );

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/variableModel.dart';
-import 'package:holland/model/extra_item.dart';
-import 'package:holland/model/list_extra_item.dart';
 import 'package:holland/model/menu_item.dart';
 import 'package:holland/widget/extraOrder.dart';
 import 'package:holland/widget/extraWidgetOrder.dart';
@@ -18,9 +16,6 @@ class _DetailPageState extends State<DetailPage> {
   int order = 0;
   List<ExtraOrder> listOrders = [];
   List<Widget> listExtraWidget = [];
-  //model
-  List orderModel = [];
-  List itemModel = [];
   @override
   Widget build(BuildContext context) {
     addExtraWidget() async {
@@ -28,10 +23,10 @@ class _DetailPageState extends State<DetailPage> {
       listOrders = [];
       for (var i = 0; i < order; i++) {
         listOrders = [];
-        for (var j = 0; j < listExtra.length; j++) {
+        for (var j = 0; j < widget.item.extraItem.length; j++) {
           listOrders.add(ExtraOrder(
-            index: j,
-            idOrder: i,
+            idMenu: widget.item.id,
+            extra: widget.item.extraItem[j],
           ));
         }
         listExtraWidget
@@ -138,7 +133,8 @@ class _DetailPageState extends State<DetailPage> {
                                   height: 30,
                                   width: 30,
                                   margin: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(color: Colors.blue),
+                                  decoration:
+                                      const BoxDecoration(color: Colors.blue),
                                   child: const Icon(
                                     Icons.remove,
                                     size: 24,
@@ -157,7 +153,8 @@ class _DetailPageState extends State<DetailPage> {
                                   height: 30,
                                   width: 30,
                                   margin: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(color: Colors.blue),
+                                  decoration:
+                                      const BoxDecoration(color: Colors.blue),
                                   child: const Icon(
                                     Icons.add,
                                     size: 24,
@@ -181,6 +178,25 @@ class _DetailPageState extends State<DetailPage> {
                   Column(
                     children: listExtraWidget,
                   ),
+                  (order >= 1)
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Total",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "Rp. " + widget.item.price.toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        )
+                      : Container(),
                 ],
               ),
             ),
@@ -189,8 +205,8 @@ class _DetailPageState extends State<DetailPage> {
               child: ElevatedButton(
                 onPressed: () {},
                 child: (order >= 1)
-                    ? Text("Tambahkan Ke keranjang")
-                    : Text("Hapus pilihan"),
+                    ? const Text("Tambahkan Ke keranjang")
+                    : const Text("Hapus pilihan"),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
