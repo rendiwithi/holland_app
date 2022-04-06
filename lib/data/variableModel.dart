@@ -4,17 +4,50 @@ import 'package:holland/model/menu_item.dart';
 
 // Public
 List<MenuItem> listShopOrder = [];
+int total = 0;
 int totalPerItem = 0;
+// logic
+
 //Static for design will remove if backend is ready
 List<ExtraItem> listExtra = [
-  ExtraItem(name: "cokelat", isSelected: false, price: 1000),
-  ExtraItem(name: "susu", isSelected: false, price: 2000),
-  ExtraItem(name: "madu", isSelected: false, price: 3000),
+  ExtraItem(
+    id: 1,
+    name: "cokelat",
+    isSelected: false,
+    price: 1000,
+  ),
+  ExtraItem(
+    id: 2,
+    name: "susu",
+    isSelected: false,
+    price: 2000,
+  ),
+  ExtraItem(
+    id: 3,
+    name: "madu",
+    isSelected: false,
+    price: 3000,
+  ),
 ];
 List<ExtraItem> listExtraAsin = [
-  ExtraItem(name: "Telor", isSelected: false, price: 4000),
-  ExtraItem(name: "Keju", isSelected: false, price: 5000),
-  ExtraItem(name: "Abon Sapi", isSelected: false, price: 6000),
+  ExtraItem(
+    id: 1,
+    name: "Telor",
+    isSelected: false,
+    price: 4000,
+  ),
+  ExtraItem(
+    id: 2,
+    name: "Keju",
+    isSelected: false,
+    price: 5000,
+  ),
+  ExtraItem(
+    id: 3,
+    name: "Abon Sapi",
+    isSelected: false,
+    price: 6000,
+  ),
 ];
 
 List<MenuItem> listMenuItem = [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/variableModel.dart';
+import 'package:holland/logic/totalPrice.dart';
 import 'package:holland/model/menu_item.dart';
 import 'package:holland/widget/extraOrder.dart';
 import 'package:holland/widget/extraWidgetOrder.dart';
@@ -16,23 +17,33 @@ class _DetailPageState extends State<DetailPage> {
   int order = 0;
   List<ExtraOrder> listOrders = [];
   List<Widget> listExtraWidget = [];
+  int totalPrice = 0;
+  @override
+  void initState() {
+    super.initState();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    addExtraWidget() async {
+    addExtraWidget() {
       listExtraWidget = [];
       listOrders = [];
+      listShopOrder = [];
       for (var i = 0; i < order; i++) {
         listOrders = [];
+        listShopOrder.add(widget.item);
         for (var j = 0; j < widget.item.extraItem.length; j++) {
           listOrders.add(ExtraOrder(
-            idMenu: widget.item.id,
-            extra: widget.item.extraItem[j],
+            index: i,
+            idExtra: j,
+            order: order,
           ));
         }
         listExtraWidget
             .add(ExtraWidgetOrder(index: i + 1, extraOrders: listOrders));
       }
-      setState(() {});
+      totalPriceAll();
     }
 
     var sizeApp = MediaQuery.of(context).size;
@@ -122,11 +133,11 @@ class _DetailPageState extends State<DetailPage> {
                           Row(
                             children: [
                               GestureDetector(
-                                onTap: () async {
+                                onTap: () {
                                   if (order > 0) {
                                     order--;
                                   }
-                                  await addExtraWidget();
+                                  addExtraWidget();
                                   setState(() {});
                                 },
                                 child: Container(
@@ -175,8 +186,18 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         )
                       : Container(),
-                  Column(
-                    children: listExtraWidget,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        total += 1;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: listExtraWidget,
+                      ),
+                    ),
                   ),
                   (order >= 1)
                       ? Row(
@@ -189,7 +210,7 @@ class _DetailPageState extends State<DetailPage> {
                               ),
                             ),
                             Text(
-                              "Rp. " + widget.item.price.toString(),
+                              "Rp. " + total.toString(),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -203,7 +224,9 @@ class _DetailPageState extends State<DetailPage> {
             Container(
               padding: const EdgeInsets.only(bottom: 20, left: 25, right: 25),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {});
+                },
                 child: (order >= 1)
                     ? const Text("Tambahkan Ke keranjang")
                     : const Text("Hapus pilihan"),
