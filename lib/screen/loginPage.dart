@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/textStyleData.dart';
+import 'package:holland/screen/signIn.dart';
 import 'package:holland/screen/user/homePage.dart';
+import 'package:holland/widget/cardInput.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -45,46 +47,15 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Username", style: mediumBlack),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 6, top: 8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xffFED2AA),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextField(
-                      controller: userController,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Username atau email anda",
-                        hintStyle: TextStyle(color: Color(0xff777777)),
-                        prefixIcon: Icon(
-                          Icons.person_outline,
-                          color: Color(0xff777777),
-                        ),
-                      ),
-                    ),
+                  cardInput(
+                    title: "Username",
+                    controller: userController,
+                    hint: "Masukkan Username",
                   ),
-                  Text("Password", style: mediumBlack),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 6, top: 8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xffFED2AA),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Password",
-                        hintStyle: TextStyle(color: Color(0xff777777)),
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Color(0xff777777),
-                        ),
-                      ),
-                    ),
+                  cardInput(
+                    title: "Password",
+                    controller: passwordController,
+                    hint: "Masukkan password",
                   ),
                   Center(
                     child: ElevatedButton(
@@ -106,7 +77,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignIn(),
+                        ),
+                      );
+                    },
                     child: const Text(
                       "Belum punya akun ?",
                       style: TextStyle(

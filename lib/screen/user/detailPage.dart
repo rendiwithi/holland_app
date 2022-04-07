@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/variableModel.dart';
 import 'package:holland/logic/totalPrice.dart';
@@ -214,7 +215,7 @@ class _DetailPageState extends State<DetailPage> {
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
-                            )
+                            ),
                           ],
                         )
                       : Container(),

@@ -4,6 +4,7 @@ import 'package:holland/data/colorData.dart';
 import 'package:holland/data/textStyleData.dart';
 import 'package:holland/data/variableModel.dart';
 import 'package:holland/screen/user/cardMenuItem.dart';
+import 'package:holland/screen/user/cartPage.dart';
 import 'package:holland/screen/user/detailPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -57,7 +58,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CartPage()),
+                      );
+                    },
                     icon: const Icon(
                       Icons.shop,
                       color: Colors.white,
