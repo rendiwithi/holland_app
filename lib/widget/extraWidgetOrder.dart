@@ -5,7 +5,7 @@ class ExtraWidgetOrder extends StatefulWidget {
   const ExtraWidgetOrder(
       {Key? key, required this.index, required this.extraOrders})
       : super(key: key);
-  final List<ExtraOrder> extraOrders;
+  final List<Widget> extraOrders;
   final int index;
   @override
   State<ExtraWidgetOrder> createState() => _ExtraWidgetOrderState();

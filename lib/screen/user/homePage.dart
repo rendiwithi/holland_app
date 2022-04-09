@@ -137,8 +137,8 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                DetailPage(item: listMenuItem[index]),
+                            builder: (context) => DetailPage(
+                                menuDetail: listMenuItem[index], index: index),
                           ),
                         );
                       },

@@ -3,7 +3,9 @@ import 'package:holland/model/list_extra_item.dart';
 import 'package:holland/model/menu_item.dart';
 
 // Public
+List<MenuItem> listCartOrder = [];
 List<MenuItem> listShopOrder = [];
+
 int total = 0;
 int totalPerItem = 0;
 // logic
@@ -29,7 +31,7 @@ List<ExtraItem> listExtra = [
     price: 3000,
   ),
 ];
-List<ExtraItem> listExtraAsin = [
+final List<ExtraItem> listExtraAsin = [
   ExtraItem(
     id: 1,
     name: "Telor",
@@ -50,7 +52,7 @@ List<ExtraItem> listExtraAsin = [
   ),
 ];
 
-List<MenuItem> listMenuItem = [
+final List<MenuItem> listMenuItem = [
   MenuItem(
     id: 1,
     title: "Martabak Manis Biasa",

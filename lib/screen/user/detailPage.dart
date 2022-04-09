@@ -2,52 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/variableModel.dart';
+import 'package:holland/logic/addExtra.dart';
 import 'package:holland/logic/totalPrice.dart';
+import 'package:holland/model/extra_item.dart';
 import 'package:holland/model/menu_item.dart';
-import 'package:holland/widget/extraOrder.dart';
-import 'package:holland/widget/extraWidgetOrder.dart';
+import 'package:holland/screen/user/cartPage.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key, required this.item}) : super(key: key);
-  final MenuItem item;
+  const DetailPage({
+    Key? key,
+    required this.menuDetail,
+    required this.index,
+  }) : super(key: key);
+  final MenuItem menuDetail;
+  final int index;
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
   int order = 0;
-  List<ExtraOrder> listOrders = [];
-  List<Widget> listExtraWidget = [];
-  int totalPrice = 0;
   @override
   void initState() {
     super.initState();
-    setState(() {});
+    listShopOrder = [];
   }
 
   @override
   Widget build(BuildContext context) {
-    addExtraWidget() {
-      listExtraWidget = [];
-      listOrders = [];
-      listShopOrder = [];
-      for (var i = 0; i < order; i++) {
-        listOrders = [];
-        listShopOrder.add(widget.item);
-        for (var j = 0; j < widget.item.extraItem.length; j++) {
-          listOrders.add(ExtraOrder(
-            index: i,
-            idExtra: j,
-            order: order,
-          ));
-        }
-        listExtraWidget
-            .add(ExtraWidgetOrder(index: i + 1, extraOrders: listOrders));
-      }
-      totalPriceAll();
+    // final MenuItem extra = listMenuItem[widget.index];
+    addToCart() {
+      listCartOrder = List.from(listCartOrder)..addAll(listShopOrder);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CartPage(),
+        ),
+      );
+      setState(() {});
     }
 
     var sizeApp = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: backgroundApp,
       body: SafeArea(
@@ -61,7 +57,7 @@ class _DetailPageState extends State<DetailPage> {
                 color: Colors.grey,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(widget.item.imgUrl),
+                  image: NetworkImage(widget.menuDetail.imgUrl),
                 ),
               ),
               child: Row(
@@ -91,6 +87,7 @@ class _DetailPageState extends State<DetailPage> {
             Container(
               margin: const EdgeInsets.all(20),
               padding: const EdgeInsets.all(20),
+              width: sizeApp.width - 40,
               decoration: BoxDecoration(
                 color: boxInput,
               ),
@@ -98,14 +95,14 @@ class _DetailPageState extends State<DetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.item.title,
+                    widget.menuDetail.title,
                     style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    "Rp. " + widget.item.price.toString(),
+                    "Rp. " + widget.menuDetail.price.toString(),
                     style: const TextStyle(
                       fontSize: 24,
                     ),
@@ -113,14 +110,14 @@ class _DetailPageState extends State<DetailPage> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
                     child: Text(
-                      widget.item.position,
+                      widget.menuDetail.position,
                       style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),
                   ),
                   Text(
-                    widget.item.desc,
+                    widget.menuDetail.desc,
                     style: const TextStyle(
                       fontSize: 18,
                     ),
@@ -137,8 +134,12 @@ class _DetailPageState extends State<DetailPage> {
                                 onTap: () {
                                   if (order > 0) {
                                     order--;
+                                    addExtraWidget(
+                                      isAdd: false,
+                                      index: widget.index,
+                                      order: order,
+                                    );
                                   }
-                                  addExtraWidget();
                                   setState(() {});
                                 },
                                 child: Container(
@@ -158,7 +159,11 @@ class _DetailPageState extends State<DetailPage> {
                               GestureDetector(
                                 onTap: () {
                                   order++;
-                                  addExtraWidget();
+                                  addExtraWidget(
+                                    isAdd: true,
+                                    index: widget.index,
+                                    order: order,
+                                  );
                                   setState(() {});
                                 },
                                 child: Container(
@@ -187,19 +192,58 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         )
                       : Container(),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        total += 1;
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: listExtraWidget,
-                      ),
-                    ),
-                  ),
+                  ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: listShopOrder.length,
+                      itemBuilder: (context, i) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Pesanan ke-" + (i + 1).toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: listShopOrder[i].extraItem.length,
+                                itemBuilder: (context, j) {
+                                  return CheckboxListTile(
+                                    title: Text(
+                                      listShopOrder[i].extraItem[j].name +
+                                          " (Rp. " +
+                                          listShopOrder[i]
+                                              .extraItem[j]
+                                              .price
+                                              .toString() +
+                                          ")" +
+                                          listShopOrder[i]
+                                              .extraItem[j]
+                                              .isSelected
+                                              .toString() +
+                                          listShopOrder.length.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                    value: listShopOrder[i]
+                                        .extraItem[j]
+                                        .isSelected,
+                                    onChanged: (check) {
+                                      addExtraItem(i: i, j: j, check: check!);
+                                      setState(() {});
+                                    },
+                                  );
+                                })
+                          ],
+                        );
+                      }),
                   (order >= 1)
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -226,7 +270,9 @@ class _DetailPageState extends State<DetailPage> {
               padding: const EdgeInsets.only(bottom: 20, left: 25, right: 25),
               child: ElevatedButton(
                 onPressed: () {
-                  setState(() {});
+                  if (order > 0) {
+                    addToCart();
+                  }
                 },
                 child: (order >= 1)
                     ? const Text("Tambahkan Ke keranjang")

@@ -36,7 +36,7 @@ class _ExtraOrderState extends State<ExtraOrder> {
       value: extra.isSelected,
       onChanged: (check) {
         extra.isSelected = check!;
-        totalPrice(index, idExtra, widget.order);
+        // totalPrice(index, idExtra, widget.order);
         setState(() {});
       },
     );
