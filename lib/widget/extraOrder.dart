@@ -7,11 +7,9 @@ import '../model/extra_item.dart';
 class ExtraOrder extends StatefulWidget {
   const ExtraOrder({
     Key? key,
-    required this.order,
     required this.index,
     required this.idExtra,
   }) : super(key: key);
-  final int order;
   final int index;
   final int idExtra;
   @override

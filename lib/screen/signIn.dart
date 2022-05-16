@@ -53,21 +53,25 @@ class _SignInState extends State<SignIn> {
                       title: "username",
                       controller: nameController,
                       hint: "Masukkan username",
+                      isSecure: false,
                     ),
                     cardInput(
                       title: "Alamat",
                       controller: addressController,
                       hint: "Masukkan alamat",
+                      isSecure: false,
                     ),
                     cardInput(
                       title: "Email",
                       controller: emailController,
                       hint: "Masukkan email",
+                      isSecure: false,
                     ),
                     cardInput(
                       title: "Password",
                       controller: passwordController,
                       hint: "Masukkan password",
+                      isSecure: false,
                     ),
                     Center(
                       child: ElevatedButton(

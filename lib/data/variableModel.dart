@@ -1,6 +1,7 @@
 import 'package:holland/model/extra_item.dart';
 import 'package:holland/model/list_extra_item.dart';
 import 'package:holland/model/menu_item.dart';
+import 'package:holland/model/voucher_model.dart';
 
 // Public
 List<MenuItem> listCartOrder = [];
@@ -8,6 +9,7 @@ List<MenuItem> listShopOrder = [];
 
 int total = 0;
 int totalPerItem = 0;
+int voucherClaim = 99999;
 // logic
 
 //Static for design will remove if backend is ready
@@ -83,4 +85,16 @@ final List<MenuItem> listMenuItem = [
     price: 25000,
     extraItem: listExtraAsin,
   ),
+];
+
+List<Voucher> listVoucher = [
+  Voucher(
+    title: "Disc 10K",
+    desc: "Diskon 10 persen",
+    imgUrl:
+        "https://i.pinimg.com/564x/86/46/fd/8646fdda0ed1966cd96d5f51175c0077.jpg",
+    discount: 10000,
+    priceLimit: 0,
+    isClaim: false,
+  )
 ];

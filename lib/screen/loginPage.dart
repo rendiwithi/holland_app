@@ -51,11 +51,13 @@ class _LoginPageState extends State<LoginPage> {
                     title: "Username",
                     controller: userController,
                     hint: "Masukkan Username",
+                    isSecure: false,
                   ),
                   cardInput(
                     title: "Password",
                     controller: passwordController,
                     hint: "Masukkan password",
+                    isSecure: true,
                   ),
                   Center(
                     child: ElevatedButton(

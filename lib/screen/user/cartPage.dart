@@ -43,6 +43,7 @@ class _CartPageState extends State<CartPage> {
                 itemBuilder: (context, index) {
                   int extra = totalExtra(listCartOrder[index].extraItem);
                   totalItem = listCartOrder[index].price + extra;
+                  totalAll += totalItem;
                   return Container(
                     padding: const EdgeInsets.all(8),
                     margin: const EdgeInsets.only(
@@ -126,7 +127,10 @@ class _CartPageState extends State<CartPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CheckoutPage()),
+                  MaterialPageRoute(
+                      builder: (context) => CheckoutPage(
+                            totalAll: totalAll,
+                          )),
                 );
               },
               child: Text("Checkout"),

@@ -7,6 +7,7 @@ import 'package:holland/logic/totalPrice.dart';
 import 'package:holland/model/extra_item.dart';
 import 'package:holland/model/menu_item.dart';
 import 'package:holland/screen/user/cartPage.dart';
+import 'package:holland/widget/extraOrder.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({
@@ -26,6 +27,7 @@ class _DetailPageState extends State<DetailPage> {
   void initState() {
     super.initState();
     listShopOrder = [];
+    total = 0;
   }
 
   @override
@@ -139,6 +141,7 @@ class _DetailPageState extends State<DetailPage> {
                                       index: widget.index,
                                       order: order,
                                     );
+                                    total -= widget.menuDetail.price;
                                   }
                                   setState(() {});
                                 },
@@ -164,6 +167,7 @@ class _DetailPageState extends State<DetailPage> {
                                     index: widget.index,
                                     order: order,
                                   );
+                                  total += widget.menuDetail.price;
                                   setState(() {});
                                 },
                                 child: Container(
@@ -192,58 +196,59 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         )
                       : Container(),
-                  ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: listShopOrder.length,
-                      itemBuilder: (context, i) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Pesanan ke-" + (i + 1).toString(),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                            ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: listShopOrder[i].extraItem.length,
-                                itemBuilder: (context, j) {
-                                  return CheckboxListTile(
-                                    title: Text(
-                                      listShopOrder[i].extraItem[j].name +
-                                          " (Rp. " +
-                                          listShopOrder[i]
-                                              .extraItem[j]
-                                              .price
-                                              .toString() +
-                                          ")" +
-                                          listShopOrder[i]
-                                              .extraItem[j]
-                                              .isSelected
-                                              .toString() +
-                                          listShopOrder.length.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.5,
-                                      ),
-                                    ),
-                                    value: listShopOrder[i]
-                                        .extraItem[j]
-                                        .isSelected,
-                                    onChanged: (check) {
-                                      addExtraItem(i: i, j: j, check: check!);
-                                      setState(() {});
-                                    },
-                                  );
-                                })
-                          ],
-                        );
-                      }),
+                  (order >= 1)
+                      ? ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 1,
+                          itemBuilder: (context, i) {
+                            MenuItem menuOrder = listShopOrder[i];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Tambah Extra untuk " +
+                                      listShopOrder.length.toString() +
+                                      " order",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: menuOrder.extraItem.length,
+                                    itemBuilder: (context, j) {
+                                      return CheckboxListTile(
+                                        title: Text(
+                                          listShopOrder[i].extraItem[j].name +
+                                              " (Rp. " +
+                                              listShopOrder[i]
+                                                  .extraItem[j]
+                                                  .price
+                                                  .toString() +
+                                              ")",
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.5,
+                                          ),
+                                        ),
+                                        value:
+                                            menuOrder.extraItem[j].isSelected,
+                                        onChanged: (check) {
+                                          addExtraItem(
+                                              i: i, j: j, check: check!);
+                                          setState(() {});
+                                        },
+                                      );
+                                    })
+                              ],
+                            );
+                          })
+                      : Container(),
                   (order >= 1)
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
