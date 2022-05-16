@@ -124,16 +124,22 @@ class _CartPageState extends State<CartPage> {
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.all(20),
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: (listCartOrder.isNotEmpty) ? Colors.blue : Colors.red,
+              ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CheckoutPage(
-                            totalAll: totalAll,
-                          )),
-                );
+                (listCartOrder.isNotEmpty)
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CheckoutPage(
+                                  totalAll: totalAll,
+                                )),
+                      )
+                    : Navigator.pop(context);
               },
-              child: Text("Checkout"),
+              child:
+                  Text((listCartOrder.isNotEmpty) ? "Checkout" : "Beli Produk"),
             ),
           ),
         ],

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:holland/screen/loginPage.dart';
 import 'package:flutter/services.dart';
+// import 'package:hive_flutter/hive_flutter.dart';
 
+// var box;
 void main() {
+  // await Hive.initFlutter();
+  // box = await Hive.openBox('hobox');
   runApp(const MyApp());
 }
 

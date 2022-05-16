@@ -6,6 +6,7 @@ import 'package:holland/data/variableModel.dart';
 import 'package:holland/screen/user/cardMenuItem.dart';
 import 'package:holland/screen/user/cartPage.dart';
 import 'package:holland/screen/user/detailPage.dart';
+import 'package:holland/screen/user/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -66,12 +67,18 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                     icon: const Icon(
-                      Icons.shop,
+                      Icons.shopping_cart,
                       color: Colors.white,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfilePage()),
+                      );
+                    },
                     icon: const Icon(
                       Icons.settings,
                       color: Colors.white,

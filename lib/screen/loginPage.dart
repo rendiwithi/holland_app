@@ -62,12 +62,16 @@ class _LoginPageState extends State<LoginPage> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomePage(),
-                          ),
-                        );
+                        (userController.text == "untaguser" &&
+                                passwordController.text == "untagpassword")
+                            ? Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomePage(),
+                                ),
+                              )
+                            : userController.clear();
+                        passwordController.clear();
                       },
                       child: const Text("Login"),
                       style: ElevatedButton.styleFrom(
