@@ -7,6 +7,7 @@ import 'package:holland/logic/totalPrice.dart';
 import 'package:holland/model/extra_item.dart';
 import 'package:holland/model/menu_item.dart';
 import 'package:holland/screen/user/cartPage.dart';
+import 'package:holland/widget/cardInput.dart';
 import 'package:holland/widget/extraOrder.dart';
 
 class DetailPage extends StatefulWidget {
@@ -23,6 +24,7 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   int order = 0;
+  TextEditingController extraController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -32,7 +34,6 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final MenuItem extra = listMenuItem[widget.index];
     addToCart() {
       listCartOrder = List.from(listCartOrder)..addAll(listShopOrder);
       Navigator.pushReplacement(
@@ -268,6 +269,13 @@ class _DetailPageState extends State<DetailPage> {
                           ],
                         )
                       : Container(),
+                  (order >= 1)
+                      ? cardInput(
+                          controller: extraController,
+                          title: "Keterangan",
+                          hint: "contoh: extra plastik ya...",
+                          isSecure: false)
+                      : Container(),
                 ],
               ),
             ),
@@ -277,6 +285,8 @@ class _DetailPageState extends State<DetailPage> {
                 onPressed: () {
                   if (order > 0) {
                     addToCart();
+                  } else {
+                    Navigator.pop(context);
                   }
                 },
                 child: (order >= 1)

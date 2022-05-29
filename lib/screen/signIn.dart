@@ -102,7 +102,7 @@ class _SignInState extends State<SignIn> {
                         );
                       },
                       child: const Text(
-                        "Belum punya akun ?",
+                        "Suddah punya akun ?",
                         style: TextStyle(
                           color: Colors.grey,
                         ),

@@ -78,13 +78,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   child: Center(
                     child: TextField(
                       controller: addressController,
-                      obscureText: true,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: "Masukkan Alamat Detail Anda",
                         hintStyle: TextStyle(color: Color(0xff777777)),
                         prefixIcon: Icon(
-                          Icons.golf_course_sharp,
+                          Icons.pin_drop,
                           color: Color(0xff777777),
                         ),
                       ),

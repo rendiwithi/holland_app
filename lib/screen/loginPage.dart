@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/textStyleData.dart';
+import 'package:holland/model/user_model.dart';
 import 'package:holland/screen/signIn.dart';
 import 'package:holland/screen/user/homePage.dart';
 import 'package:holland/widget/cardInput.dart';
@@ -15,8 +16,46 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    loginCek({
+      required String username,
+      required String password,
+    }) {
+      if (username.isEmpty || password.isEmpty) {
+        for (var i = 0; i < listUser.length; i++) {
+          if (listUser[i].username == username &&
+              listUser[i].password == password) {
+            if (listUser[i].role == "admin") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+            } else if (listUser[i].role == "user") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+            } else {
+              userController.clear();
+              passwordController.clear();
+            }
+          } else {
+            userController.clear();
+            passwordController.clear();
+          }
+        }
+      } else {
+        userController.clear();
+        passwordController.clear();
+      }
+    }
+
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: backgroundApp,
@@ -62,16 +101,10 @@ class _LoginPageState extends State<LoginPage> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        (userController.text == "untaguser" &&
-                                passwordController.text == "untagpassword")
-                            ? Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              )
-                            : userController.clear();
-                        passwordController.clear();
+                        loginCek(
+                          username: userController.text,
+                          password: passwordController.text,
+                        );
                       },
                       child: const Text("Login"),
                       style: ElevatedButton.styleFrom(
