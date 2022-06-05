@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/textStyleData.dart';
 import 'package:holland/model/user_model.dart';
+import 'package:holland/screen/admin/home_page_admin.dart';
 import 'package:holland/screen/signIn.dart';
 import 'package:holland/screen/user/homePage.dart';
 import 'package:holland/widget/cardInput.dart';
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       required String username,
       required String password,
     }) {
-      if (username.isEmpty || password.isEmpty) {
+      if (username.isNotEmpty || password.isNotEmpty) {
         for (var i = 0; i < listUser.length; i++) {
           if (listUser[i].username == username &&
               listUser[i].password == password) {
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HomePage(),
+                  builder: (context) => const HomePageAdmin(),
                 ),
               );
             } else if (listUser[i].role == "user") {
