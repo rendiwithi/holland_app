@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/variableModel.dart';
 import 'package:holland/logic/addExtra.dart';
-import 'package:holland/logic/totalPrice.dart';
-import 'package:holland/model/extra_item.dart';
 import 'package:holland/model/menu_item.dart';
 import 'package:holland/screen/user/cartPage.dart';
 import 'package:holland/widget/cardInput.dart';
-import 'package:holland/widget/extraOrder.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({
