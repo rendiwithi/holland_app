@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/variableModel.dart';
+import 'package:holland/screen/admin/add_voucher_page.dart';
 
 class VoucherPageAdmin extends StatefulWidget {
   const VoucherPageAdmin({Key? key}) : super(key: key);
@@ -17,7 +18,14 @@ class _VoucherPageAdminState extends State<VoucherPageAdmin> {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddVoucherPage(),
+                  ),
+                );
+              },
               child: Text("Tambah Voucher"),
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(

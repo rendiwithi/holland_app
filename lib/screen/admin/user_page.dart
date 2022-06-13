@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/variableModel.dart';
 import 'package:holland/model/user_model.dart';
+import 'package:holland/screen/admin/add_user_page.dart';
 
-class userPage extends StatefulWidget {
-  const userPage({Key? key}) : super(key: key);
+class UserPage extends StatefulWidget {
+  const UserPage({Key? key}) : super(key: key);
 
   @override
-  State<userPage> createState() => _userPageState();
+  State<UserPage> createState() => _UserPageState();
 }
 
-class _userPageState extends State<userPage> {
+class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,7 +19,9 @@ class _userPageState extends State<userPage> {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddUserPage() ));
+              },
               child: const Text("Tambah User"),
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(

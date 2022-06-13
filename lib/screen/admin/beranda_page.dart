@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/variableModel.dart';
+import 'package:holland/screen/admin/add_menu_page.dart';
 import 'package:holland/screen/admin/banner_page.dart';
 
 class BerandaPage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _BerandaPageState extends State<BerandaPage> {
                     MaterialPageRoute(builder: (context) => const BannerPage()),
                   );
                 },
-                child: Text("Kelola Banner"),
+                child: const Text("Kelola Banner"),
                 style: ElevatedButton.styleFrom(
                   side: const BorderSide(
                     width: 3.0,
@@ -83,8 +84,10 @@ class _BerandaPageState extends State<BerandaPage> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
-                onPressed: () {},
-                child: Text("Tambah Menu"),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddMenuPage()));
+                },
+                child: const Text("Tambah Menu"),
                 style: ElevatedButton.styleFrom(
                   side: const BorderSide(
                     width: 3.0,

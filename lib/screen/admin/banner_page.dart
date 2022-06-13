@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
+import 'package:holland/screen/admin/add_banner_page.dart';
 
 class BannerPage extends StatefulWidget {
   const BannerPage({Key? key}) : super(key: key);
@@ -18,7 +19,9 @@ class _BannerPageState extends State<BannerPage> {
         backgroundColor: backgroundApp,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddBannerPage()));
+        },
         child: const Icon(Icons.add),
         backgroundColor: Colors.green,
       ),

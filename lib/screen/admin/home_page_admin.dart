@@ -18,30 +18,31 @@ class _HomePageAdminState extends State<HomePageAdmin> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 4,
-        child: Scaffold(
+      length: 4,
+      child: Scaffold(
+        backgroundColor: backgroundApp,
+        appBar: AppBar(
           backgroundColor: backgroundApp,
-          appBar: AppBar(
-            backgroundColor: backgroundApp,
-            title: const Text('Admin Home Page'),
-            centerTitle: true,
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: 'Beranda'),
-                Tab(
-                  text: 'Voucher',
-                ),
-                Tab(text: 'Pesanan'),
-                Tab(text: 'Akun'),
-              ],
-            ),
+          title: const Text('Admin Home Page'),
+          centerTitle: true,
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Beranda'),
+              Tab(
+                text: 'Voucher',
+              ),
+              Tab(text: 'Pesanan'),
+              Tab(text: 'Akun'),
+            ],
           ),
-          body: const TabBarView(children: [
-            BerandaPage(),
-            VoucherPageAdmin(),
-            OrderPage(),
-            userPage(),
-          ]),
-        ));
+        ),
+        body: const TabBarView(children: [
+          BerandaPage(),
+          VoucherPageAdmin(),
+          OrderPage(),
+          UserPage(),
+        ]),
+      ),
+    );
   }
 }
