@@ -1,17 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
+import 'package:holland/data/static.dart';
+import 'package:holland/screen/check_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    _logOut() async {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.setString('token', "");
+      pref.setString('role', "");
+      pref.setString('idUsr', "");
+      pref.setBool('isLogin', false);
+      tokenUsr = "";
+      roleUsr = "";
+      idUsr = "";
+    }
+
     return Scaffold(
         backgroundColor: backgroundApp,
         appBar: AppBar(
           title: const Text('Profile'),
           backgroundColor: backgroundApp,
           centerTitle: true,
+          actions: [
+            IconButton(
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+                color: const Color(0xff015007),
+                onPressed: () {
+                  _logOut();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CheckPage(),
+                    ),
+                  );
+                }),
+          ],
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:holland/screen/loginPage.dart';
+import 'package:holland/screen/check_page.dart';
 import 'package:flutter/services.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
 
-// var box;
 void main() {
-  // await Hive.initFlutter();
-  // box = await Hive.openBox('hobox');
   runApp(const MyApp());
 }
 
@@ -22,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: const CheckPage(),
     );
   }
 }

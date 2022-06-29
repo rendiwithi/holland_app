@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:holland/data/variableModel.dart';
 import 'package:holland/model/user_model.dart';
 import 'package:holland/screen/admin/add_user_page.dart';
 
@@ -11,6 +10,7 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
+  List<User>listUser=[];
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/variableModel.dart';
+import 'package:holland/model/menu_model.dart';
 import 'package:holland/screen/admin/add_menu_page.dart';
 import 'package:holland/screen/admin/banner_page.dart';
 
@@ -11,6 +12,12 @@ class BerandaPage extends StatefulWidget {
 }
 
 class _BerandaPageState extends State<BerandaPage> {
+  List<MenuModel> listMenu = [];
+  _getData() async {
+    listMenu = [];
+    await MenuModel.connectToApi().then((value) => listMenu = value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -44,7 +51,7 @@ class _BerandaPageState extends State<BerandaPage> {
           ),
           ListView.builder(
             shrinkWrap: true,
-            itemCount: listMenuItem.length,
+            itemCount: listMenu.length,
             itemBuilder: ((context, index) {
               return Container(
                 margin: const EdgeInsets.all(10),
@@ -53,8 +60,8 @@ class _BerandaPageState extends State<BerandaPage> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20)),
                 child: ListTile(
-                  title: Text(listMenuItem[index].title),
-                  subtitle: Text("Rp. " + listMenuItem[index].price.toString()),
+                  title: Text(listMenu[index].title),
+                  subtitle: Text("Rp. " + listMenu[index].harga.toString()),
                   onTap: () {},
                   trailing: SizedBox(
                     width: 150,
@@ -85,7 +92,10 @@ class _BerandaPageState extends State<BerandaPage> {
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddMenuPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddMenuPage()));
                 },
                 child: const Text("Tambah Menu"),
                 style: ElevatedButton.styleFrom(

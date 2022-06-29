@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:holland/model/menu_item.dart';
+import 'package:holland/model/menu_model.dart';
 
 class CardMenuItem extends StatelessWidget {
   const CardMenuItem({Key? key, required this.item}) : super(key: key);
-  final MenuItem item;
+  final MenuModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class CardMenuItem extends StatelessWidget {
                 ),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(item.imgUrl),
+                  image: NetworkImage(item.image),
                 ),
               ),
             ),
@@ -40,7 +41,7 @@ class CardMenuItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(item.title),
-                  Text(item.price.toString()),
+                  Text(item.harga.toString()),
                 ],
               ),
             ),

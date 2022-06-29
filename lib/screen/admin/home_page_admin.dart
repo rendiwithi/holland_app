@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
+import 'package:holland/data/static.dart';
 import 'package:holland/screen/admin/beranda_page.dart';
 import 'package:holland/screen/admin/order_page.dart';
 import 'package:holland/screen/admin/user_page.dart';
 import 'package:holland/screen/admin/voucher_page_admin.dart';
+import 'package:holland/screen/check_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageAdmin extends StatefulWidget {
   const HomePageAdmin({Key? key}) : super(key: key);
@@ -14,6 +17,16 @@ class HomePageAdmin extends StatefulWidget {
 
 class _HomePageAdminState extends State<HomePageAdmin> {
   TextEditingController searchController = TextEditingController();
+  _logOut() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('token', "");
+    pref.setString('role', "");
+    pref.setString('idUsr', "");
+    pref.setBool('isLogin', false);
+    tokenUsr = "";
+    roleUsr = "";
+    idUsr = "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +48,24 @@ class _HomePageAdminState extends State<HomePageAdmin> {
               Tab(text: 'Akun'),
             ],
           ),
+          actions: [
+            IconButton(
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+                color: const Color(0xff015007),
+                onPressed: () {
+                  _logOut();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CheckPage(),
+                    ),
+                  );
+                }),
+          ],
         ),
         body: const TabBarView(children: [
           BerandaPage(),

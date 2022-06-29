@@ -41,8 +41,8 @@ class _CartPageState extends State<CartPage> {
             child: ListView.builder(
                 itemCount: listCartOrder.length,
                 itemBuilder: (context, index) {
-                  int extra = totalExtra(listCartOrder[index].extraItem);
-                  totalItem = listCartOrder[index].price + extra;
+                  // int extra = totalExtra(listCartOrder[index].extraItem);
+                  // totalItem = listCartOrder[index].price + extra;
                   totalAll += totalItem;
                   return Container(
                     padding: const EdgeInsets.all(8),
@@ -70,7 +70,7 @@ class _CartPageState extends State<CartPage> {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: NetworkImage(
-                                listCartOrder[index].imgUrl,
+                                listCartOrder[index].image,
                               ),
                             ),
                           ),
@@ -81,28 +81,28 @@ class _CartPageState extends State<CartPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(listCartOrder[index].title),
-                              Text(listCartOrder[index].position),
-                              (extra > 0) ? const Text("Extra :") : Container(),
-                              (extra > 0)
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: ListView.builder(
-                                          itemCount: listCartOrder[index]
-                                              .extraItem
-                                              .length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, yindex) {
-                                            return (listCartOrder[index]
-                                                    .extraItem[yindex]
-                                                    .isSelected)
-                                                ? Text("- " +
-                                                    listCartOrder[index]
-                                                        .extraItem[yindex]
-                                                        .name)
-                                                : Container();
-                                          }),
-                                    )
-                                  : Container(),
+                              // Text(listCartOrder[index].position),
+                              // (extra > 0) ? const Text("Extra :") : Container(),
+                              // (extra > 0)
+                              //     ? Padding(
+                              //         padding: const EdgeInsets.only(left: 20),
+                              //         child: ListView.builder(
+                              //             itemCount: listCartOrder[index]
+                              //                 .extraItem
+                              //                 .length,
+                              //             shrinkWrap: true,
+                              //             itemBuilder: (context, yindex) {
+                              //               return (listCartOrder[index]
+                              //                       .extraItem[yindex]
+                              //                       .isSelected)
+                              //                   ? Text("- " +
+                              //                       listCartOrder[index]
+                              //                           .extraItem[yindex]
+                              //                           .name)
+                              //                   : Container();
+                              //             }),
+                              //       )
+                              //     : Container(),
                               Text("Rp. " + totalItem.toString())
                             ],
                           ),

@@ -3,7 +3,6 @@ import 'package:holland/data/colorData.dart';
 import 'package:holland/data/textStyleData.dart';
 import 'package:holland/data/variableModel.dart';
 import 'package:holland/model/extra_item.dart';
-import 'package:holland/model/voucher_model.dart';
 import 'package:holland/screen/user/voucher_page.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -99,8 +98,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   shrinkWrap: true,
                   itemCount: listCartOrder.length,
                   itemBuilder: (context, index) {
-                    int extra = totalExtra(listCartOrder[index].extraItem);
-                    totalItem = listCartOrder[index].price + extra;
+                    // int extra = totalExtra(listCartOrder[index].extraItem);
+                    // totalItem = listCartOrder[index].price + extra;
                     return Container(
                       padding: const EdgeInsets.all(8),
                       margin: const EdgeInsets.only(
@@ -125,7 +124,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  listCartOrder[index].imgUrl,
+                                  listCartOrder[index].image,
                                 ),
                               ),
                             ),
@@ -136,31 +135,31 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(listCartOrder[index].title),
-                                Text(listCartOrder[index].position),
-                                (extra > 0)
-                                    ? const Text("Extra :")
-                                    : Container(),
-                                (extra > 0)
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: ListView.builder(
-                                            itemCount: listCartOrder[index]
-                                                .extraItem
-                                                .length,
-                                            shrinkWrap: true,
-                                            itemBuilder: (context, yindex) {
-                                              return (listCartOrder[index]
-                                                      .extraItem[yindex]
-                                                      .isSelected)
-                                                  ? Text("- " +
-                                                      listCartOrder[index]
-                                                          .extraItem[yindex]
-                                                          .name)
-                                                  : Container();
-                                            }),
-                                      )
-                                    : Container(),
+                                // Text(listCartOrder[index].position),
+                                // (extra > 0)
+                                //     ? const Text("Extra :")
+                                //     : Container(),
+                                // (extra > 0)
+                                //     ? Padding(
+                                //         padding:
+                                //             const EdgeInsets.only(left: 20),
+                                //         child: ListView.builder(
+                                //             itemCount: listCartOrder[index]
+                                //                 .extraItem
+                                //                 .length,
+                                //             shrinkWrap: true,
+                                //             itemBuilder: (context, yindex) {
+                                //               return (listCartOrder[index]
+                                //                       .extraItem[yindex]
+                                //                       .isSelected)
+                                //                   ? Text("- " +
+                                //                       listCartOrder[index]
+                                //                           .extraItem[yindex]
+                                //                           .name)
+                                //                   : Container();
+                                //             }),
+                                //       )
+                                //     : Container(),
                                 Text("Rp. " + totalItem.toString())
                               ],
                             ),

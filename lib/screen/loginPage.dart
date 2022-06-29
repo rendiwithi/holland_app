@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
+import 'package:holland/data/static.dart';
 import 'package:holland/data/textStyleData.dart';
 import 'package:holland/model/user_model.dart';
 import 'package:holland/screen/admin/home_page_admin.dart';
 import 'package:holland/screen/signIn.dart';
 import 'package:holland/screen/user/homePage.dart';
 import 'package:holland/widget/cardInput.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,37 +26,86 @@ class _LoginPageState extends State<LoginPage> {
     loginCek({
       required String username,
       required String password,
-    }) {
+    }) async {
       if (username.isNotEmpty || password.isNotEmpty) {
-        for (var i = 0; i < listUser.length; i++) {
-          if (listUser[i].username == username &&
-              listUser[i].password == password) {
-            if (listUser[i].role == "admin") {
+        User.connectToApi(username: username, password: password)
+            .then((value) async {
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          if (value.id != 0) {
+            pref.setString('token', value.token);
+            pref.setString('role', value.role);
+            pref.setString('idUsr', value.id.toString());
+            pref.setBool('isLogin', true);
+            tokenUsr = value.token;
+            roleUsr = value.role;
+            idUsr = value.id.toString();
+            // cek ping
+            if (roleUsr == "Member") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+            } else if (roleUsr == "Admin") {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const HomePageAdmin(),
                 ),
               );
-            } else if (listUser[i].role == "user") {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ),
-              );
             } else {
-              userController.clear();
-              passwordController.clear();
+              Alert(
+                context: context,
+                type: AlertType.error,
+                title: "Error",
+                desc: "Username dan Password yang benar",
+                buttons: [
+                  DialogButton(
+                    child: const Text(
+                      "Kembali",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    width: 120,
+                  )
+                ],
+              ).show();
             }
           } else {
-            userController.clear();
-            passwordController.clear();
+            Alert(
+              context: context,
+              type: AlertType.error,
+              title: "Error",
+              desc: "Username dan Password Salah",
+              buttons: [
+                DialogButton(
+                  child: const Text(
+                    "Kembali",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                  width: 120,
+                )
+              ],
+            ).show();
           }
-        }
+        });
       } else {
-        userController.clear();
-        passwordController.clear();
+        Alert(
+          context: context,
+          type: AlertType.error,
+          title: "Error",
+          desc: "Username dan Password Harus di isi",
+          buttons: [
+            DialogButton(
+              child: const Text(
+                "Kembali",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.pop(context),
+              width: 120,
+            )
+          ],
+        ).show();
       }
     }
 
