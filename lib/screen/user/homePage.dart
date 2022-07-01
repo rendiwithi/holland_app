@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
+import 'package:holland/data/static.dart';
 import 'package:holland/data/textStyleData.dart';
 import 'package:holland/data/variableModel.dart';
 import 'package:holland/model/banner_model.dart';
@@ -20,7 +21,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController searchController = TextEditingController();
   List<BannerModel> listBanner = [];
-  List<MenuModel> listMenu = [];
   @override
   Widget build(BuildContext context) {
     _getData() async {
@@ -152,6 +152,7 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (BuildContext ctx, index) {
                           return GestureDetector(
                             onTap: () {
+                              toping = 0;
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

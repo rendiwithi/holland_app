@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
+import 'package:holland/data/static.dart';
 import 'package:holland/data/variableModel.dart';
 import 'package:holland/logic/addExtra.dart';
 import 'package:holland/model/menu_item.dart';
 import 'package:holland/model/menu_model.dart';
+import 'package:holland/model/pesanan_model.dart';
 import 'package:holland/model/topping_model.dart';
 import 'package:holland/screen/user/cartPage.dart';
+import 'package:holland/screen/user/homePage.dart';
 import 'package:holland/widget/cardInput.dart';
 
 class DetailPage extends StatefulWidget {
@@ -23,7 +26,6 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   int order = 0;
   List<TopingModel> listToping = [];
-  List<int> listTopingAdd = [];
   TextEditingController extraController = TextEditingController();
 
   @override
@@ -43,12 +45,23 @@ class _DetailPageState extends State<DetailPage> {
       });
     }
 
+    _sendData({required int harga}) async {
+      await Pesanan.postData(
+          idMenu: widget.menuDetail.id,
+          topping: toping,
+          keterangan: extraController.text,
+          harga: harga);
+    }
+
     addToCart() {
+      for (var i = 0; i < order; i++) {
+        _sendData(harga: total ~/ order);
+      }
       listCartOrder = List.from(listCartOrder)..addAll(listShopOrder);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const CartPage(),
+          builder: (context) => const HomePage(),
         ),
       );
       setState(() {});
@@ -169,12 +182,9 @@ class _DetailPageState extends State<DetailPage> {
                                   GestureDetector(
                                     onTap: () {
                                       order++;
-                                      listTopingAdd = [];
                                       for (var i = 0;
                                           i < listToping.length;
-                                          i++) {
-                                        listTopingAdd.add(0);
-                                      }
+                                          i++) {}
                                       // addExtraWidget(
                                       //   isAdd: true,
                                       //   index: widget.index,
@@ -228,18 +238,16 @@ class _DetailPageState extends State<DetailPage> {
                                         letterSpacing: 0.5,
                                       ),
                                     ),
-                                    value: (listTopingAdd[index] != 0),
+                                    value: (listToping[index].id == toping),
                                     onChanged: (check) {
                                       setState(() {
-                                        if (listTopingAdd[index] ==
-                                            listToping[index].id) {
-                                          listTopingAdd[index] = 0;
-                                          total = total -
+                                        if (check == true) {
+                                          toping = listToping[index].id;
+                                          total = total +
                                               (order * listToping[index].harga);
                                         } else {
-                                          listTopingAdd[index] =
-                                              listToping[index].id;
-                                          total = total +
+                                          toping = 0;
+                                          total = total -
                                               (order * listToping[index].harga);
                                         }
                                       });

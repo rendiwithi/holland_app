@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/data/textStyleData.dart';
 import 'package:holland/data/variableModel.dart';
 import 'package:holland/model/extra_item.dart';
+import 'package:holland/model/menu_model.dart';
+import 'package:holland/model/pesanan_model.dart';
+import 'package:holland/screen/user/homePage.dart';
 import 'package:holland/screen/user/voucher_page.dart';
+import 'package:latlong2/latlong.dart';
 
 class CheckoutPage extends StatefulWidget {
-  const CheckoutPage({Key? key, required this.totalAll}) : super(key: key);
-  final int totalAll;
+  const CheckoutPage({
+    Key? key,
+    required this.listKeranjang,
+    required this.listPesanan,
+  }) : super(key: key);
+  final List<Pesanan> listPesanan;
+  final List<MenuModel> listKeranjang;
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
 }
@@ -28,9 +38,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return result;
   }
 
-  totalProductCounter(int totalAll) {
+  totalProductCounter() {
     totalProduct = 0;
-    totalProduct = totalProduct + totalAll;
+    for (var i = 0; i < widget.listPesanan.length; i++) {
+      totalProduct = totalProduct + widget.listPesanan[i].hargatotal;
+    }
   }
 
   TextEditingController addressController = TextEditingController();
@@ -50,9 +62,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
     setState(() {});
   }
 
+  _sendData() async {
+    for (var i = 0; i < widget.listPesanan.length; i++) {
+      await Pesanan.statusChange(idMenu: widget.listPesanan[i].id, status: 1);
+    }
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const HomePage()));
+  }
+
   @override
   Widget build(BuildContext context) {
-    totalProductCounter(widget.totalAll);
+    totalProductCounter();
     return Scaffold(
       backgroundColor: backgroundApp,
       appBar: AppBar(
@@ -67,25 +87,54 @@ class _CheckoutPageState extends State<CheckoutPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Alamat Pengiriman", style: boldWhite),
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffFED2AA),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                    child: TextField(
-                      controller: addressController,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Masukkan Alamat Detail Anda",
-                        hintStyle: TextStyle(color: Color(0xff777777)),
-                        prefixIcon: Icon(
-                          Icons.pin_drop,
-                          color: Color(0xff777777),
-                        ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text("Posisi Anda & Gerai",
+                      style: TextStyle(fontSize: 18)),
+                ),
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    height: 250,
+                    width: 250,
+                    child: FlutterMap(
+                      options: MapOptions(
+                        center: LatLng(-7.290985, 112.718403),
+                        zoom: 15.0,
                       ),
+                      layers: [
+                        TileLayerOptions(
+                          urlTemplate:
+                              "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=98bcad190bdc4d34af5b8fb8fe0ba0fa",
+                          additionalOptions: {
+                            "apikey": "98bcad190bdc4d34af5b8fb8fe0ba0fa"
+                          },
+                        ),
+                        MarkerLayerOptions(
+                          markers: [
+                            Marker(
+                              point: LatLng(-7.290985, 112.718403),
+                              width: 80,
+                              height: 80,
+                              builder: (context) => Icon(
+                                Icons.person_pin_circle,
+                                size: 48,
+                                color: Colors.orange,
+                              ),
+                            ),
+                            Marker(
+                              point: LatLng(-7.292010, 112.718133),
+                              width: 80,
+                              height: 80,
+                              builder: (context) => Icon(
+                                Icons.pin_drop,
+                                size: 48,
+                                color: Colors.green,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -98,8 +147,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   shrinkWrap: true,
                   itemCount: listCartOrder.length,
                   itemBuilder: (context, index) {
-                    // int extra = totalExtra(listCartOrder[index].extraItem);
-                    // totalItem = listCartOrder[index].price + extra;
                     return Container(
                       padding: const EdgeInsets.all(8),
                       margin: const EdgeInsets.only(
@@ -133,35 +180,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(listCartOrder[index].title),
-                                // Text(listCartOrder[index].position),
-                                // (extra > 0)
-                                //     ? const Text("Extra :")
-                                //     : Container(),
-                                // (extra > 0)
-                                //     ? Padding(
-                                //         padding:
-                                //             const EdgeInsets.only(left: 20),
-                                //         child: ListView.builder(
-                                //             itemCount: listCartOrder[index]
-                                //                 .extraItem
-                                //                 .length,
-                                //             shrinkWrap: true,
-                                //             itemBuilder: (context, yindex) {
-                                //               return (listCartOrder[index]
-                                //                       .extraItem[yindex]
-                                //                       .isSelected)
-                                //                   ? Text("- " +
-                                //                       listCartOrder[index]
-                                //                           .extraItem[yindex]
-                                //                           .name)
-                                //                   : Container();
-                                //             }),
-                                //       )
-                                //     : Container(),
-                                Text("Rp. " + totalItem.toString())
-                              ],
+                              children: [Text("Rp. " + totalItem.toString())],
                             ),
                           ),
                         ],
@@ -207,7 +226,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         children: [
                           const Text("Pesan"),
                           Text("Total Pesanan (" +
-                              listCartOrder.length.toString() +
+                              widget.listPesanan.length.toString() +
                               " produk)"),
                         ],
                       ),
@@ -269,7 +288,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             child: Row(
                               children: const [
                                 Text(
-                                  "pilih pembayaran",
+                                  "Hanya Tersedia COD",
                                   style: TextStyle(
                                     color: Colors.black,
                                   ),
@@ -292,6 +311,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     const Text("Total Pembayaran : "),
                     Text("Rp. " + (totalCheckout + totalProduct).toString()),
                   ],
+                ),
+                Center(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        _sendData();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        side: const BorderSide(
+                          width: 3.0,
+                          color: Colors.white,
+                        ),
+                        fixedSize: const Size(250, 60),
+                        primary: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: const Text("Pesan Sekarang")),
                 )
               ],
             ),

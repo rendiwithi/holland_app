@@ -31,7 +31,23 @@ class TopingModel {
         listBanner.add(TopingModel.fromJson(jsonObject['data'][i]));
       }
     }
-
     return listBanner;
+  }
+
+  static Future<bool> postData({
+    required int idMenu,
+    required int topping,
+    required String keterangan,
+  }) async {
+    String apiUrl = "$baseUrl/pesanan";
+    var apiResult = await http.post(Uri.parse(apiUrl), body: {
+      "id_user": idUsr,
+      "id_detail_menu": idMenu,
+      "topping": (topping == 0) ? null : topping,
+      "keterangan": (keterangan.isEmpty) ? null : keterangan
+    });
+    var jsonObject = json.decode(apiResult.body);
+
+    return jsonObject['status'];
   }
 }
