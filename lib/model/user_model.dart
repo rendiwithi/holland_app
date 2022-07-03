@@ -48,4 +48,24 @@ class User {
     }
     return User.fromJson(jsonObject["data"]);
   }
+
+  static Future<bool> register({
+    required String name,
+    required String username,
+    required String password,
+    required String alamat,
+  }) async {
+    String apiUrl = "$baseUrl/user";
+
+    var apiResult = await http.post(Uri.parse(apiUrl), body: {
+      "name": "",
+      "username": username,
+      "password": password,
+      "alamat": alamat,
+      "role": "2"
+    });
+    var jsonObject = json.decode(apiResult.body);
+
+    return jsonObject["status"];
+  }
 }

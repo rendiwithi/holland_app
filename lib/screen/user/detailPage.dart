@@ -49,7 +49,9 @@ class _DetailPageState extends State<DetailPage> {
       await Pesanan.postData(
           idMenu: widget.menuDetail.id,
           topping: toping,
-          keterangan: extraController.text,
+          keterangan: (extraController.text == null)
+              ? "tanpa keterangan"
+              : extraController.text,
           harga: harga);
     }
 

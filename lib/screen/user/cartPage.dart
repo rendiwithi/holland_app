@@ -32,7 +32,7 @@ class _CartPageState extends State<CartPage> {
   _getDataApi() async {
     await Pesanan.connectToApi().then((value) {
       listPesanan = [];
-      listKeranjang=[];
+      listKeranjang = [];
       listPesanan = value;
       String title = "";
       String desc = "";
@@ -63,6 +63,11 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
+  _deletePesanan({required int idMenu}) async {
+    await Pesanan.delete(idMenu: idMenu)
+        .then((value) => Navigator.pop(context));
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -82,7 +87,7 @@ class _CartPageState extends State<CartPage> {
                   child: Text(snapshot.error.toString()),
                 );
               } else {
-                if (listKeranjang.isEmpty||listPesanan.isEmpty) {
+                if (listKeranjang.isEmpty || listPesanan.isEmpty) {
                   return const Center(
                     child: Text("Maaf Banner Belum Tersedia"),
                   );
@@ -157,7 +162,10 @@ class _CartPageState extends State<CartPage> {
                                       ),
                                     ),
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _deletePesanan(
+                                            idMenu: listPesanan[index].id);
+                                      },
                                       icon: const Icon(
                                         Icons.remove,
                                         color: Colors.red,

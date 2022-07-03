@@ -103,4 +103,19 @@ class Pesanan {
 
     return jsonObject['status'];
   }
+
+  static Future<bool> delete({
+    required int idMenu,
+  }) async {
+    String apiUrl = "$baseUrl/pesanan";
+    var apiResult = await http.put(
+      Uri.parse(apiUrl),
+      body: {
+        "id": idMenu.toString(),
+      },
+    );
+    var jsonObject = json.decode(apiResult.body);
+
+    return jsonObject['status'];
+  }
 }
