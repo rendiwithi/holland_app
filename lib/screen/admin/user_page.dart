@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:holland/data/static.dart';
 import 'package:holland/model/user_model.dart';
 import 'package:holland/screen/admin/add_user_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -10,7 +12,16 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  List<User>listUser=[];
+  List<User> listUser = [];
+  Future<void> _launchInBrowser() async {
+    if (!await launchUrl(
+      Uri.parse("$baseUrl/admin"),
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Anda Bukan Admin';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,9 +31,9 @@ class _UserPageState extends State<UserPage> {
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddUserPage() ));
+                _launchInBrowser();
               },
-              child: const Text("Tambah User"),
+              child: const Text("Edit Manual"),
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(
                   width: 3.0,

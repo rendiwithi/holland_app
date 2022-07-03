@@ -4,18 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/model/banner_model.dart';
 import 'package:holland/screen/admin/home_page_admin.dart';
-import 'package:holland/widget/cardInput.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class AddBannerPage extends StatefulWidget {
-  const AddBannerPage({Key? key}) : super(key: key);
-
+class EditBannerPage extends StatefulWidget {
+  const EditBannerPage({Key? key, required this.model}) : super(key: key);
+  final BannerModel model;
   @override
-  State<AddBannerPage> createState() => _AddBannerPageState();
+  State<EditBannerPage> createState() => _EditBannerPageState();
 }
 
-class _AddBannerPageState extends State<AddBannerPage> {
+class _EditBannerPageState extends State<EditBannerPage> {
   File? banner;
   final ImagePicker _picker = ImagePicker();
   getImageBanner() async {
@@ -29,8 +28,8 @@ class _AddBannerPageState extends State<AddBannerPage> {
     });
   }
 
-  _sendData() async {
-    await BannerModel.uploadBanner(banner: banner!).then((value) {
+  _sendData({required String id}) async {
+    await BannerModel.editBanner(banner: banner!, id: id).then((value) {
       if (value == true) {
         Navigator.pushReplacement(
           context,
@@ -63,7 +62,7 @@ class _AddBannerPageState extends State<AddBannerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tambah Banner"),
+        title: Text("Edit Banner"),
         backgroundColor: backgroundApp,
         centerTitle: true,
       ),
@@ -84,9 +83,14 @@ class _AddBannerPageState extends State<AddBannerPage> {
                         banner!,
                         fit: BoxFit.cover,
                       )
-                    : const SizedBox(
-                        child: Icon(Icons.image),
-                      ),
+                    : (widget.model.image.isNotEmpty)
+                        ? Image.network(
+                            widget.model.image,
+                            fit: BoxFit.cover,
+                          )
+                        : const SizedBox(
+                            child: Icon(Icons.image),
+                          ),
               ),
             ),
             Center(
@@ -94,9 +98,9 @@ class _AddBannerPageState extends State<AddBannerPage> {
                 padding: const EdgeInsets.all(10.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    _sendData();
+                    _sendData(id: widget.model.id.toString());
                   },
-                  child: const Text("Tambah Banner"),
+                  child: const Text("Edit Banner"),
                   style: ElevatedButton.styleFrom(
                     side: const BorderSide(
                       width: 3.0,

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:holland/data/colorData.dart';
 import 'package:holland/model/banner_model.dart';
 import 'package:holland/screen/admin/add_banner_page.dart';
+import 'package:holland/screen/admin/edit_banner_page.dart';
+import 'package:holland/screen/admin/home_page_admin.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class BannerPage extends StatefulWidget {
   const BannerPage({Key? key}) : super(key: key);
@@ -16,6 +19,36 @@ class _BannerPageState extends State<BannerPage> {
     await BannerModel.connectToApi().then((value) {
       listBanner = [];
       listBanner = value;
+    });
+  }
+
+  _deleteBanner({required String idBanner}) async {
+    await BannerModel.deleteBanner(idBanner: idBanner).then((value) {
+      if (value == true) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomePageAdmin(),
+          ),
+        );
+      } else {
+        Alert(
+          context: context,
+          type: AlertType.error,
+          title: "Error",
+          desc: "Delete Banner Gagal",
+          buttons: [
+            DialogButton(
+              child: const Text(
+                "Kembali",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.pop(context),
+              width: 120,
+            )
+          ],
+        ).show();
+      }
     });
   }
 
@@ -76,13 +109,25 @@ class _BannerPageState extends State<BannerPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EditBannerPage(
+                                              model: listBanner[index]),
+                                        ),
+                                      );
+                                    },
                                     icon: const Icon(
                                       Icons.edit,
                                       color: Colors.blue,
                                     )),
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _deleteBanner(
+                                          idBanner:
+                                              listBanner[index].id.toString());
+                                    },
                                     icon: const Icon(
                                       Icons.delete,
                                       color: Colors.red,

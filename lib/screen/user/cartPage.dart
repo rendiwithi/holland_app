@@ -31,6 +31,8 @@ class _CartPageState extends State<CartPage> {
 
   _getDataApi() async {
     await Pesanan.connectToApi().then((value) {
+      listPesanan = [];
+      listKeranjang=[];
       listPesanan = value;
       String title = "";
       String desc = "";

@@ -45,7 +45,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                 text: 'Voucher',
               ),
               Tab(text: 'Pesanan'),
-              Tab(text: 'Akun'),
+              Tab(text: 'Web'),
             ],
           ),
           actions: [

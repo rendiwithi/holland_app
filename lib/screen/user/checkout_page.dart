@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:holland/data/colorData.dart';
+import 'package:holland/data/static.dart';
 import 'package:holland/data/textStyleData.dart';
 import 'package:holland/data/variableModel.dart';
 import 'package:holland/model/extra_item.dart';
@@ -9,6 +10,7 @@ import 'package:holland/model/pesanan_model.dart';
 import 'package:holland/screen/user/homePage.dart';
 import 'package:holland/screen/user/voucher_page.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({
@@ -25,7 +27,7 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   int totalItem = 0;
   int totalProduct = 0;
-  int totalOngkir = 15000;
+  int totalDisc = 0;
   int totalCheckout = 0;
   int voucherIndex = 99;
   int totalExtra(List<ExtraItem> listex) {
@@ -49,7 +51,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   void initState() {
     super.initState();
-    totalCheckout = totalOngkir;
   }
 
   void _navigateVoucher(BuildContext context) async {
@@ -58,7 +59,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       MaterialPageRoute(builder: (context) => const VoucherPage()),
     );
     voucherIndex = result;
-    totalCheckout = totalOngkir - listVoucher[voucherIndex].discount;
+    totalDisc = listVoucher[voucherIndex].discount;
     setState(() {});
   }
 
@@ -66,8 +67,22 @@ class _CheckoutPageState extends State<CheckoutPage> {
     for (var i = 0; i < widget.listPesanan.length; i++) {
       await Pesanan.statusChange(idMenu: widget.listPesanan[i].id, status: 1);
     }
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const HomePage()));
+  }
+
+  _sendDisc() async {
+    await Pesanan.disc(
+      idMenu: widget.listPesanan[0].id,
+      harga: (widget.listPesanan[0].hargatotal - totalDisc),
+    );
+  }
+
+  Future<void> _launchInBrowser() async {
+    if (!await launchUrl(
+      Uri.parse("https://wa.me/628176963129"),
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Anda Bukan Admin';
+    }
   }
 
   @override
@@ -188,29 +203,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     );
                   },
                 ),
-                const Text("Opsi Pengiriman"),
-                Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2.0,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text("Reguler"),
-                          Text("Jarak 1Km = Rp.5000"),
-                        ],
-                      ),
-                      Text("Rp. " + totalOngkir.toString())
-                    ],
-                  ),
-                ),
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -285,19 +277,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           const Text("Metode Pembayaran"),
                           TextButton(
                             onPressed: () {},
-                            child: Row(
-                              children: const [
-                                Text(
-                                  "Hanya Tersedia COD",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.black,
-                                )
-                              ],
+                            child: const Text(
+                              "Hanya Tersedia Transfer",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ],
@@ -309,26 +293,42 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("Total Pembayaran : "),
-                    Text("Rp. " + (totalCheckout + totalProduct).toString()),
+                    Text("Rp. " +
+                        (totalCheckout + totalProduct - totalDisc).toString()),
                   ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text("Harap Melakukan Transfer ke nomor rek : "),
+                      Text("1298570 (Holland Mayjend)"),
+                      Text(
+                          "SS Bukti Transfer lalu kirim ke WA Holland Di bawah"),
+                    ],
+                  ),
                 ),
                 Center(
                   child: ElevatedButton(
                       onPressed: () {
-                        _sendData();
+                        if (totalDisc > 0) {
+                          _sendDisc();
+                        }
+                        _launchInBrowser();
                       },
                       style: ElevatedButton.styleFrom(
                         side: const BorderSide(
                           width: 3.0,
                           color: Colors.white,
                         ),
-                        fixedSize: const Size(250, 60),
                         primary: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: const Text("Pesan Sekarang")),
+                      child: const Text("Upload Foto Transaksi melalui Wa")),
                 )
               ],
             ),

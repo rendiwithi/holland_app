@@ -89,4 +89,18 @@ class Pesanan {
 
     return jsonObject['status'];
   }
+
+  static Future<bool> disc({
+    required int idMenu,
+    required int harga,
+  }) async {
+    String apiUrl = "$baseUrl/pesanan/disc";
+    var apiResult = await http.put(
+      Uri.parse(apiUrl),
+      body: {"id": idMenu.toString(), "harga": harga.toString()},
+    );
+    var jsonObject = json.decode(apiResult.body);
+
+    return jsonObject['status'];
+  }
 }
