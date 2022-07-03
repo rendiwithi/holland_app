@@ -41,17 +41,19 @@ class _LoginPageState extends State<LoginPage> {
             idUsr = value.id.toString();
             // cek ping
             if (roleUsr == "Member") {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const HomePage(),
+                  ),
+                  (route) => false);
             } else if (roleUsr == "Admin") {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HomePageAdmin(),
-                ),
-              );
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const HomePageAdmin(),
+                  ),
+                  (route) => false);
             } else {
               Alert(
                 context: context,

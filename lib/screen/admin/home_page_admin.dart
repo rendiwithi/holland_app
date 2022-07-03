@@ -6,6 +6,7 @@ import 'package:holland/screen/admin/order_page.dart';
 import 'package:holland/screen/admin/user_page.dart';
 import 'package:holland/screen/admin/voucher_page_admin.dart';
 import 'package:holland/screen/check_page.dart';
+import 'package:holland/screen/loginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageAdmin extends StatefulWidget {
@@ -58,12 +59,12 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                 onPressed: () {
                   _logOut();
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CheckPage(),
-                    ),
-                  );
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const LoginPage(),
+                      ),
+                      (route) => false);
                 }),
           ],
         ),

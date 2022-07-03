@@ -4,6 +4,7 @@ import 'package:holland/data/colorData.dart';
 import 'package:holland/data/static.dart';
 import 'package:holland/model/pesanan_model.dart';
 import 'package:holland/screen/check_page.dart';
+import 'package:holland/screen/loginPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:timelines/timelines.dart';
@@ -57,13 +58,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 color: const Color(0xff015007),
                 onPressed: () {
                   _logOut();
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CheckPage(),
-                    ),
-                  );
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const LoginPage(),
+                      ),
+                      (route) => false);
                 }),
           ],
         ),
@@ -119,7 +119,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             builder: TimelineTileBuilder.connectedFromStyle(
                               contentsAlign: ContentsAlign.alternating,
                               connectorStyleBuilder: (context, index) {
-                                return (index >= listPesanan[0].status||listPesanan[0].status==4)
+                                return (index >= listPesanan[0].status ||
+                                        listPesanan[0].status == 4)
                                     ? ConnectorStyle.transparent
                                     : ConnectorStyle.solidLine;
                               },
