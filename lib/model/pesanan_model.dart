@@ -108,7 +108,7 @@ class Pesanan {
     required int idMenu,
   }) async {
     String apiUrl = "$baseUrl/pesanan";
-    var apiResult = await http.put(
+    var apiResult = await http.delete(
       Uri.parse(apiUrl),
       body: {
         "id": idMenu.toString(),
